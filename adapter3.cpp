@@ -3,23 +3,10 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "dummyAPI.h"
 #include "app.h"
 #include "MissileSim.h"
 // #include "TankSim.h"
-
-class DummyApiClient {
-    public:
-        int makeRequest(const std::string& data) {
-            // In a real API client, you'd make an HTTP request here
-            // and handle the response, errors, etc.
-    
-            std::cout << "API client received request: " << data << std::endl;
-            
-            // Always return 1 for this dummy implementation
-            return 1; 
-        }
-    };
-
 
 class Adapter : public App { 
     public:
@@ -31,8 +18,9 @@ class Adapter : public App {
         // get the data from the API 
         int data = client->makeRequest("12");
 
-        // When we call the app method, we are actually calling the simulation
+        // When we call the local app method, we are actually calling the simulation
         virtual void appMethod(int& data) override { obj->simMethod(data); }
+
     
     private:
 
@@ -61,12 +49,14 @@ class Adapter : public App {
 int main() {
 
 
-    // Create adapters for different simulation types
+    // Create dummy api client
     auto client = std::make_unique<DummyApiClient>();
+    // Create missile sim adapter. Takes in a missile simulation and gets the address of the client 
     auto missileAdapter = std::make_unique<Adapter>(new MissileSimulation(), client.get());
     // std::unique_ptr<Adapter> tankAdapter = StatefulWidgetFactory::createAdapter("Tank");
 
     int data1 = 0; // Initialize data variables
+    // Run app method on the missile adapter 
     missileAdapter->appMethod(data1); 
     // tankAdapter->appMethod(data2); 
       
