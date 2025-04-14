@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/ajcronin/cppProjects/adapters/baseAdapter/adapter3'
+relocations:     []
+...
