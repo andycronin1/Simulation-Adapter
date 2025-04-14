@@ -4,7 +4,7 @@
 
 class TankSimulation : public Simulation {
     public: 
-        virtual void simMethod() override {
+        virtual void simMethod(int &data) override {
             std::cout << "Tank Sim Running Method" << std::endl;
         }
 };
