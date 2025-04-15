@@ -2,5 +2,5 @@
 
 class App {
     public: 
-    virtual void appMethod() = 0;
+    virtual void appMethod(int &data) = 0;
 };

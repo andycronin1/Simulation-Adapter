@@ -3,51 +3,52 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "dummyTankAPI.h"
+#include "dummySoldierApi.h"
 #include "app.h"
-#include "MissileSim.h"
-#include "TankSim.h"
-
 
 class Adapter : public App { 
     public:
         // CONSTRUCTOR
 
-        // Adapter takes a pointer to an intstance of the simulation interface
-        Adapter(Simulation* o) : obj{ o } {}
+        // Adapter takes a pointer to an instance of the dummyAPI
+        Adapter(DummyApiClient* c) : client{c} {}
 
-        // When we call the app method, we are actually calling the simulation
-        virtual void appMethod() override { obj->simMethod(); }
+        // Override the app method with the clients make request method 
+        virtual void appMethod(int& data) override { client->makeRequest(data); }
+
+        // // When we call the local app method, we are actually calling the simulation
+        // virtual void appMethod(int& data) override { obj->simMethod(data); }
+
     
     private:
 
-        Simulation* obj = nullptr;
+        // Initialise pointers
+        DummyApiClient* client = nullptr;
 
-    };
-
-// Factory class for creating Adapter instances
-class StatefulWidgetFactory {
-    public:
-        static std::unique_ptr<Adapter> createAdapter(const std::string& simulationType) {
-            if (simulationType == "Missile") {
-                return std::make_unique<Adapter>(new MissileSimulation());
-            } else if (simulationType == "Tank") {
-                return std::make_unique<Adapter>(new TankSimulation());
-            } else {
-                // Handle invalid simulation type
-                return nullptr;
-            }
-        }
     };
 
 int main() {
-    // Create adapters for different simulation types
-    std::unique_ptr<Adapter> missileAdapter = StatefulWidgetFactory::createAdapter("Missile");
-    std::unique_ptr<Adapter> tankAdapter = StatefulWidgetFactory::createAdapter("Tank");
 
-    // Use the adapters to run the simulations
-    missileAdapter->appMethod();
-    tankAdapter->appMethod();
+    // Create simulations
+    std::unique_ptr<DummyApiClient> tankSim = std::make_unique<DummyTankApiClient>();
+    std::unique_ptr<DummyApiClient> soldierSim = std::make_unique<DummySoldierApiClient>();
+    // Create adapters
+    auto tankAdapter = std::make_unique<Adapter>(tankSim.get());
+    auto soldierAdapter = std::make_unique<Adapter>(soldierSim.get());
+
+    int data1 = 1;
+    int data2 = 2;
+
+    // Run simulations
+    tankAdapter->appMethod(data1);
+    soldierAdapter->appMethod(data2);
+
+    // std::cout << "Tank Sim Data Returned: " << data1 << std::endl;
+    // std::cout << "Solider Sim Data Return: " << data2 << std::endl;
 
     return 0;
 }
+
+
 
