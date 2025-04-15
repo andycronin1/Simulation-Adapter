@@ -23,7 +23,6 @@ class Adapter : public App {
     private:
 
         // Initialise pointers
-        // Simulation* obj = nullptr;
         DummyApiClient* client = nullptr;
 
     };
