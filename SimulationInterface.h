@@ -1,7 +1,7 @@
 #pragma once
 
 // Simulation interface
-class Simulation {
+class DummyApiClient {
     public:
-        virtual void simMethod(int &data) = 0;
+        virtual int makeRequest(const int &data) = 0;
     };
