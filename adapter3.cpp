@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "dummyTankAPI.h"
+#include "dummySoldierApi.h"
 #include "app.h"
 
 class Adapter : public App { 
@@ -29,19 +30,25 @@ class Adapter : public App {
 
 int main() {
 
-    // Create dummy api client
-    std::unique_ptr<DummyApiClient> client = std::make_unique<DummyTankApiClient>();
-    // Create missile sim adapter. Takes in a missile simulation and gets the address of the client 
-    auto missileAdapter = std::make_unique<Adapter>(client.get());
+    // Create simulations
+    std::unique_ptr<DummyApiClient> tankSim = std::make_unique<DummyTankApiClient>();
+    std::unique_ptr<DummyApiClient> soldierSim = std::make_unique<DummySoldierApiClient>();
+    // Create adapters
+    auto tankAdapter = std::make_unique<Adapter>(tankSim.get());
+    auto soldierAdapter = std::make_unique<Adapter>(soldierSim.get());
 
-    // Initialize data variables
-    int data1 = 0;
+    int data1 = 1;
+    int data2 = 2;
 
-    // Run app method on the missile adapter 
-    missileAdapter->appMethod(data1); 
-      
+    // Run simulations
+    tankAdapter->appMethod(data1);
+    soldierAdapter->appMethod(data2);
+
+    // std::cout << "Tank Sim Data Returned: " << data1 << std::endl;
+    // std::cout << "Solider Sim Data Return: " << data2 << std::endl;
+
     return 0;
-  }
+}
 
 
 
