@@ -29,9 +29,8 @@ class Adapter : public App {
 
 int main() {
 
-
     // Create dummy api client
-    auto client = std::make_unique<DummyTankApiClient>();
+    std::unique_ptr<DummyApiClient> client = std::make_unique<DummyTankApiClient>();
     // Create missile sim adapter. Takes in a missile simulation and gets the address of the client 
     auto missileAdapter = std::make_unique<Adapter>(client.get());
 

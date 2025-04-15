@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "SimulationInterface.h"
+#include "DummyApiInterface.h"
 
 class DummyTankApiClient : public DummyApiClient {
     public:
@@ -11,4 +11,7 @@ class DummyTankApiClient : public DummyApiClient {
             // Always return 1 for this dummy implementation
             return 1; 
         }
+
+        ~DummyTankApiClient() {std::cout << "Tank API Destructor \n";  }
+
     };
