@@ -1,6 +1,6 @@
 #include <iostream> 
 
-class App {
+class AppInterface {
     public: 
     virtual void appMethod(int &data) = 0;
 };

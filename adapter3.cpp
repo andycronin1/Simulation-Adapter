@@ -5,9 +5,9 @@
 #include <memory>
 #include "dummyTankAPI.h"
 #include "dummySoldierApi.h"
-#include "app.h"
+#include "appInterface.h"
 
-class Adapter : public App { 
+class Adapter : public AppInterface { 
     public:
         // CONSTRUCTOR
 
@@ -15,9 +15,10 @@ class Adapter : public App {
         Adapter(DummyApiClient* c) : client{c} {}
 
         // Override the app method with the clients make request method 
-        virtual void appMethod(int& data) override { client->makeRequest(data); }
+        virtual void appMethod(int& data) override {
+            client->makeRequest(data); }
 
-        // // When we call the local app method, we are actually calling the simulation
+        // When we call the local app method, we are actually calling the simulation
         // virtual void appMethod(int& data) override { obj->simMethod(data); }
 
     
@@ -26,11 +27,16 @@ class Adapter : public App {
         // Initialise pointers
         DummyApiClient* client = nullptr;
 
+        int transformData(int input) {
+            // Complex transformation logic here
+            // Example
+        }
+
     };
 
 int main() {
 
-    // Create simulations
+    // Create simulations and their pointers 
     std::unique_ptr<DummyApiClient> tankSim = std::make_unique<DummyTankApiClient>();
     std::unique_ptr<DummyApiClient> soldierSim = std::make_unique<DummySoldierApiClient>();
     // Create adapters
